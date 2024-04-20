@@ -1,29 +1,17 @@
 ---
-version: '3.6'
 
 x-besu-def:
   &besu-def
   restart: "on-failure"
   image: hyperledger/besu:${BESU_VERSION:-latest}
-  env_file:
-    - ./config/besu/.env
   entrypoint:
     - /bin/bash
     - -c
     - |
 
-      #cp "/config/${BESU_CONS_ALGO:-QBFT}genesis.json" /config/genesis.json
-
       /opt/besu/bin/besu \
       --config-file=/config/config.toml \
       --p2p-host=$$(hostname -i) \
-      --rpc-http-api=EEA,WEB3,ETH,NET,TRACE,DEBUG,ADMIN,TXPOOL,PERM,${BESU_CONS_ALGO:-QBFT} \
-      --rpc-ws-api=EEA,WEB3,ETH,NET,TRACE,DEBUG,ADMIN,TXPOOL,PERM,${BESU_CONS_ALGO:-QBFT} ;
-
-
-
-
-
 
 
 x-blockscout-ref:
